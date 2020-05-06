@@ -1,0 +1,75 @@
+class MyDialog extends RunBase
+{
+DialogField fieldAccount;
+DialogField fieldName;
+DialogField fieldGroup;
+DialogField fieldCurrency;
+DialogField fieldPaymTermId;
+DialogField fieldPaymMode;
+CustName custName;
+CustGroupId custGroupId;
+CurrencyCode currencyCode;
+CustPaymTermId paymTermId;
+CustPaymMode paymMode;
+public container pack()
+{
+return conNull();
+}
+public boolean unpack(container _packedClass)
+{
+return true;
+}
+
+Object dialog()
+{
+Dialog dialog;
+DialogGroup groupCustomer;
+DialogGroup groupPayment;
+dialog = super();
+dialog.caption("Customer information");
+fieldAccount=dialog.addField
+(extendedTypeStr(CustVendAC),"Customer account");
+fieldName =dialog.addField(extendedTypeStr(CustName));
+dialog.addTabPage("Details");
+groupCustomer = dialog.addGroup("Setup");
+fieldGroup=dialog.addField
+(extendedTypeStr(CustGroupId));
+fieldCurrency=dialog.addField
+(extendedTypeStr(CurrencyCode));
+groupPayment = dialog.addGroup("Payment");
+fieldPaymTermId=dialog.addField
+(extendedTypeStr(CustPaymTermId));
+fieldPaymMode = dialog.addField
+(extendedTypeStr(CustPaymMode));
+return dialog;
+}
+public boolean getFromDialog()
+{
+custAccount = fieldAccount.value();
+custName = fieldName.value();
+custGroupId = fieldGroup.value();
+currencyCode = fieldCurrency.value();
+paymTermId = fieldPaymTermId.value();
+paymMode = fieldPaymMode.value();
+return super();
+}
+
+public void run()
+{
+info("You have entered customer information:");
+info(strFmt("Account: %1", custAccount));
+info(strFmt("Name: %1", custName));
+info(strFmt("Group: %1", custGroupId));
+info(strFmt("Currency: %1", currencyCode));
+info(strFmt("Terms of payment: %1", paymTermId));
+info(strFmt("Method of payment: %1", paymMode));
+}
+public static void main(Args _args)
+{
+MyDialog myDialog = new MyDialog();
+if (myDialog.prompt())
+{
+myDialog.run();
+}
+}
+}
